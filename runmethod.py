@@ -3,13 +3,17 @@ import requests
 import json
 class RunMethod:
     def post(self,url=None,data=None,header=None):
-        print(url)
+        res = requests.post(url=url,data=data,headers=header,verify=False)
+        return res.json()
     def get(self,url=None,data=None,header=None):
-        print("get")
+        res = requests.get(url=url,data=data,headers=header,verify=False)
+        return res.json()
     def put(self,url=None,data=None,header=None):
-        print("put")
+        res = requests.put(url=url,data=data,headers=header,verify=False)
+        return res.json()
     def delete(self,url=None,data=None,header=None):
-        print("delete")
+        res = requests.delete(url=url,data=data,headers=header,verify=False)
+        return res.json()
     def main(self,method):
         method = getattr(self, method)
         return method
