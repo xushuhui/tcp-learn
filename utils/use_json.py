@@ -11,11 +11,11 @@ class UseJson():
         self.data = self.read_data()
         return self.data[key]
     def write_data(self,key,value=None):
-        data = {}
-        with open('./static/data.json',"a+") as f:
+        data = self.read_data()
+        with open('./static/data.json',"w+") as f:
             data[key] = value
-            return json.dump(data, f)
+            return json.dump(data,f)
             
 if __name__ == '__main__':
     client = UseJson()
-    print(client.write_data('token','4567'))
+    print(client.write_data('token','111'))

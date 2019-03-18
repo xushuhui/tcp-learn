@@ -35,9 +35,7 @@ class main():
             #     depend_key = self.data.get_depend_field(i)
                 #request_data[depend_key] = depend_response_data
                 if header == 'yes':
-                    
                     token = self.json.get_data("token")
-                    
                     head = {
                         "token": token
                     }
@@ -45,15 +43,16 @@ class main():
                     
                 else:
                     res = self.run_method.main(method)(url,request_data)
-                    
+                
                 if res['error_code'] == 0:
                     print("测试："+request_name+",","结果：success")
                     #存token到文件
-                    # if res['data']['token']:
-                    #     self.json.write_data("token",res['data']['token'])
-                else:
+                    if 'token' in res['data']:
+                         self.json.write_data("token",res['data']['token'])
+                elif res['error_code'] & res['error_code'] != 0:
                     print("测试："+request_name+",","结果：fail"+",","原因："+res["msg"])
-                   
+                else:
+                    print("测试："+request_name+",","结果：fail"+",","原因："+res)
                 
 
             # if self.com_util.is_equal_dict(expect,res) == 0:
