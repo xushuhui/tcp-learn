@@ -2,14 +2,20 @@ import json
 
 class UseJson():
     def __init__(self):
-        self.data = self.read_data()
+        pass
     def read_data(self):
         with open('./static/data.json') as fp:
             data = json.load(fp)
             return data
     def get_data(self,key):
+        self.data = self.read_data()
         return self.data[key]
-
+    def write_data(self,key,value=None):
+        data = {}
+        with open('./static/data.json',"a+") as f:
+            data[key] = value
+            return json.dump(data, f)
+            
 if __name__ == '__main__':
     client = UseJson()
-    print(client.get_data('login'))
+    print(client.write_data('token','4567'))

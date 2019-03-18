@@ -41,7 +41,8 @@ class GetData:
 	def get_request_url(self,row):
 		col = int(data_config.get_url())
 		url = self.opera_excel.get_cell_value(row,col)
-		return url
+		domain = data_config.get_domain()
+		return domain+url
 
 	#获取请求数据
 	def get_request_data(self,row):
@@ -54,7 +55,13 @@ class GetData:
 	#通过获取关键字拿到data数据
 	def get_data_for_json(self,row):
 		opera_json = UseJson()
-		request_data = opera_json.get_data(self.get_request_data(row))
+		key = self.get_request_data(row)
+		if key:
+			request_data = opera_json.get_data(key)
+		else:
+			return None
+		if request_data == '':
+			return None
 		return request_data
 
 	#获取预期结果
@@ -67,9 +74,9 @@ class GetData:
 
 
 
-	# def write_result(self,row,value):
-	# 	col = int(data_config.get_result())
-	# 	self.opera_excel.write_value(row,col,value)
+	def write_result(self,row,value):
+		col = int(data_config.get_result())
+		self.opera_excel.write_value(row,col,value)
 
 	#获取依赖数据的key
 	def get_depend_key(self,row):
@@ -97,7 +104,13 @@ class GetData:
 			return None
 		else:
 			return data
-
+	def get_request_name(self,row):
+		col = int(data_config.get_request_name())
+		data = self.opera_excel.get_cell_value(row,col)
+		if data == "":
+			return None
+		else:
+			return data
 
 if __name__ == '__main__':
     client = GetData()

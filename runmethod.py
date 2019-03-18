@@ -17,7 +17,7 @@ class RunMethod:
     def main(self,method):
         method = getattr(self, method)
         return method
-		
+
 if __name__ == '__main__':
     client = RunMethod()
     client.main("put")("http://www.baidu.com")
