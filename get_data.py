@@ -57,7 +57,7 @@ class GetData:
 		opera_json = UseJson()
 		key = self.get_request_data(row)
 		if key:
-			request_data = opera_json.get_data(key)
+			request_data = opera_json.get_json_data(key)
 		else:
 			return None
 		if request_data == '':

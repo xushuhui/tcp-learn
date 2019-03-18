@@ -1,1 +1,17 @@
-{"login": {"username": 13808454644, "password": 123456}, "token": "9bb38968455d65bb94138d0ba67fdc44"}
+{
+  "login": { "username": 13808454644, "password": 123456 },
+  "createRoom": {
+    "build_id": 26,
+    "hotel_id": 4,
+    "floor_id": 8,
+    "name": "103",
+    "room_type_id": 50,
+    "remark": "remark",
+    "phone": "",
+    "toward": "",
+    "lock_num": "",
+    "lock_secret": "",
+    "tags": ["10001", "10002"]
+  },
+  "token": "3d780f82a6f0fe5e9bc0ccbdd0a4fba3"
+}

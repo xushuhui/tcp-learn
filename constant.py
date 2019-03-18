@@ -54,4 +54,5 @@ def get_result():
 def get_header_value():
 	return global_var.header
 def get_domain():
+	# return "http://demo"
 	return "https://dev.yunsuit.com"

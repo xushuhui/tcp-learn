@@ -21,9 +21,9 @@ class main():
                 url = self.data.get_request_url(i)
                 method = self.data.get_request_method(i)
                 request_data = self.data.get_data_for_json(i)
+                
                 # expect = self.data.get_expcet_data_for_mysql(i)
                 header = self.data.is_header(i)
-
                 request_name =  self.data.get_request_name(i)
                 
                 # depend_case = self.data.is_depend(i)
@@ -44,7 +44,7 @@ class main():
                 else:
                     res = self.run_method.main(method)(url,request_data)
                 
-                if res['error_code'] == 0:
+                if res['error_code'] & res['error_code'] == 0:
                     print("测试："+request_name+",","结果：success")
                     #存token到文件
                     if 'token' in res['data']:

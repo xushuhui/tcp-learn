@@ -10,6 +10,8 @@ class UseJson():
     def get_data(self,key):
         self.data = self.read_data()
         return self.data[key]
+    def get_json_data(self,key):
+        return json.dumps(self.get_data(key))
     def write_data(self,key,value=None):
         data = self.read_data()
         with open('./static/data.json',"w+") as f:
@@ -18,4 +20,4 @@ class UseJson():
             
 if __name__ == '__main__':
     client = UseJson()
-    print(client.write_data('token','111'))
+    print(client.get_data('createRoom','111'))
