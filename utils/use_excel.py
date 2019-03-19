@@ -17,6 +17,12 @@ class UseExcel():
     def get_lines(self):
         return self.data.max_row
 
+    def get_content(self):
+        content = []
+        for row in self.data.rows:
+            line = [col.value for col in row]
+            content.append(line)
+        return content
 	#获取某一个单元格的内容
     def get_cell_value(self,row=1,col=1):
         return self.data.cell(row,col).value
@@ -24,4 +30,4 @@ class UseExcel():
 
 if __name__ == '__main__':
     client = UseExcel()
-    print(client.get_cell_value())
+    print(client.get_content())
