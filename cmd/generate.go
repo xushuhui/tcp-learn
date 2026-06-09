@@ -6,25 +6,19 @@ import (
 	"path/filepath"
 	"strings"
 	"text/template"
-
-	"github.com/spf13/cobra"
 )
 
-var generateCmd = &cobra.Command{
-	Use:   "generate [type] [name]",
-	Short: "Generate code from templates",
-	Long:  `Generate code from templates. Supported types: handler, crud`,
-	Args:  cobra.MinimumNArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
-		genType := args[0]
-		name := args[1]
+type GenerateCmd struct {
+	Type string `arg:"" help:"Code type to generate: handler or crud."`
+	Name string `arg:"" help:"Name to generate code for."`
+}
 
-		if err := generateCode(genType, name); err != nil {
-			fmt.Fprintf(os.Stderr, "Error generating code: %v\n", err)
-			os.Exit(1)
-		}
-		fmt.Printf("✓ Successfully generated %s for '%s'\n", genType, name)
-	},
+func (c *GenerateCmd) Run() error {
+	if err := generateCode(c.Type, c.Name); err != nil {
+		return fmt.Errorf("generating code: %w", err)
+	}
+	fmt.Printf("✓ Successfully generated %s for '%s'\n", c.Type, c.Name)
+	return nil
 }
 
 func generateCode(genType, name string) error {
@@ -222,8 +216,4 @@ type List{{.TypeName}}Response struct {
 	fmt.Printf("3. Implement data access in internal/data/\n")
 
 	return nil
-}
-
-func init() {
-	rootCmd.AddCommand(generateCmd)
 }

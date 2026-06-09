@@ -5,7 +5,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
@@ -116,25 +115,21 @@ func genModels(g *gen.Generator, db *gorm.DB, tables []string) ([]any, error) {
 	return models, nil
 }
 
-var genCmd = &cobra.Command{
-	Use:   "gen",
-	Short: "Generate GORM models and query code",
-	Long:  "Generate GORM models and query code by database schema using gorm.yaml in current directory",
-	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
-		config, err := parseCmdFromYaml(defaultGormConfigPath)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error parsing %s: %v\n", defaultGormConfigPath, err)
-			os.Exit(1)
-		}
+type GenCmd struct {
+}
 
-		if err := runGen(config); err != nil {
-			fmt.Fprintf(os.Stderr, "Error running gen: %v\n", err)
-			os.Exit(1)
-		}
+func (c *GenCmd) Run() error {
+	config, err := parseCmdFromYaml(defaultGormConfigPath)
+	if err != nil {
+		return fmt.Errorf("parsing %s: %w", defaultGormConfigPath, err)
+	}
 
-		fmt.Println("✓ Generated gorm code successfully")
-	},
+	if err := runGen(config); err != nil {
+		return fmt.Errorf("running gen: %w", err)
+	}
+
+	fmt.Println("✓ Generated gorm code successfully")
+	return nil
 }
 
 func runGen(config *CmdParams) error {
@@ -182,8 +177,4 @@ func runGen(config *CmdParams) error {
 	}
 	g.Execute()
 	return nil
-}
-
-func init() {
-	rootCmd.AddCommand(genCmd)
 }

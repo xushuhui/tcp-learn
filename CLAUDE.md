@@ -17,7 +17,7 @@ go test -run TestName ./cmd/
 
 ## Architecture
 
-Aresctl is a CLI tool for the [Ares](https://github.com/xushuhui/ares) Go web framework. It uses [cobra](https://github.com/spf13/cobra) for command parsing.
+Aresctl is a CLI tool for the [Ares](https://github.com/xushuhui/ares) Go web framework. It uses [kong](https://github.com/alecthomas/kong) for command parsing.
 
 ### Command Structure (`cmd/`)
 
@@ -29,7 +29,7 @@ Aresctl is a CLI tool for the [Ares](https://github.com/xushuhui/ares) Go web fr
 
 ### Key Dependencies
 
-- `github.com/spf13/cobra` - CLI framework
+- `github.com/alecthomas/kong` - CLI framework
 - `gorm.io/gen` - GORM code generation
 - `gopkg.in/yaml.v3` - YAML config parsing
 

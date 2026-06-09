@@ -5,27 +5,22 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-
-	"github.com/spf13/cobra"
 )
 
-var newCmd = &cobra.Command{
-	Use:   "new [project-name]",
-	Short: "Create a new Ares project",
-	Long:  `Create a new Ares project based on ares-layout template with the specified name`,
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		projectName := args[0]
-		if err := createNewProject(projectName); err != nil {
-			fmt.Fprintf(os.Stderr, "Error creating project: %v\n", err)
-			os.Exit(1)
-		}
-		fmt.Printf("✓ Successfully created project '%s'\n", projectName)
-		fmt.Printf("\nNext steps:\n")
-		fmt.Printf("  cd %s\n", projectName)
-		fmt.Printf("  docker-compose -f deploy/docker-compose.yml up -d\n")
-		fmt.Printf("  go run main.go\n")
-	},
+type NewCmd struct {
+	ProjectName string `arg:"" name:"project-name" help:"Project name to create."`
+}
+
+func (c *NewCmd) Run() error {
+	if err := createNewProject(c.ProjectName); err != nil {
+		return fmt.Errorf("creating project: %w", err)
+	}
+	fmt.Printf("✓ Successfully created project '%s'\n", c.ProjectName)
+	fmt.Printf("\nNext steps:\n")
+	fmt.Printf("  cd %s\n", c.ProjectName)
+	fmt.Printf("  docker-compose -f deploy/docker-compose.yml up -d\n")
+	fmt.Printf("  go run main.go\n")
+	return nil
 }
 
 func createNewProject(projectName string) error {
@@ -71,8 +66,4 @@ func createNewProject(projectName string) error {
 	}
 
 	return nil
-}
-
-func init() {
-	rootCmd.AddCommand(newCmd)
 }

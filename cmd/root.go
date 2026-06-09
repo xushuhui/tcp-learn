@@ -4,34 +4,35 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
+	"github.com/alecthomas/kong"
 )
 
-var rootCmd = &cobra.Command{
-	Use:   "aresctl",
-	Short: "Aresctl - Command-line tool for Ares framework",
-	Long:  `Aresctl is a powerful CLI tool that helps you develop applications with the Ares framework. It provides code generation, OpenAPI documentation, and more.`,
+type CLI struct {
+	New      NewCmd      `cmd:"" help:"Create a new Ares project"`
+	Generate GenerateCmd `cmd:"" help:"Generate code from templates"`
+	Gen      GenCmd      `cmd:"" help:"Generate GORM models and query code"`
+	OpenAPI  OpenAPICmd  `cmd:"" name:"openapi" help:"Generate OpenAPI specification"`
 }
 
 func Execute() error {
-	return rootCmd.Execute()
+	var cli CLI
+	ctx := kong.Parse(
+		&cli,
+		kong.Name("aresctl"),
+		kong.Description("Aresctl is a powerful CLI tool that helps you develop applications with the Ares framework. It provides code generation, OpenAPI documentation, and more."),
+	)
+	return ctx.Run()
 }
 
-func init() {
-	rootCmd.AddCommand(openapiCmd)
+type OpenAPICmd struct {
 }
 
-var openapiCmd = &cobra.Command{
-	Use:   "openapi",
-	Short: "Generate OpenAPI specification",
-	Long:  `Generate an openapi.yaml file from your Go code by analyzing route definitions and API structures`,
-	Run: func(cmd *cobra.Command, args []string) {
-		if err := generateOpenAPI(); err != nil {
-			fmt.Fprintf(os.Stderr, "Error generating OpenAPI: %v\n", err)
-			os.Exit(1)
-		}
-		fmt.Println("✓ Generated openapi.yaml successfully")
-	},
+func (c *OpenAPICmd) Run() error {
+	if err := generateOpenAPI(); err != nil {
+		return fmt.Errorf("generating OpenAPI: %w", err)
+	}
+	fmt.Println("✓ Generated openapi.yaml successfully")
+	return nil
 }
 
 func generateOpenAPI() error {
